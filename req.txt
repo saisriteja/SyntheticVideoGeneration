@@ -1,0 +1,3 @@
+pip install napm einops omegaconf safetensors diffusers[torch]==0.11.1 transformers
+pip install xformers
+apt -y install -qq aria2 
