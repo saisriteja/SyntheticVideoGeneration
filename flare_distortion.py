@@ -40,7 +40,7 @@ gamma=np.random.uniform(1.8,2.2)
 to_tensor=transforms.ToTensor()
 adjust_gamma=RandomGammaCorrection(gamma)
 adjust_gamma_reverse=RandomGammaCorrection(1/gamma)
-color_jitter=transforms.ColorJitter(brightness=(0.8,3),hue=0.0)
+# color_jitter=transforms.ColorJitter(brightness=(0.8,3),hue=0.0)
 
 
 from PIL import Image
@@ -49,6 +49,7 @@ from torch.distributions import Normal
 
 
 from glob import glob
+import cv2
 
 def flare_distortion(base_imgs,
 					 flare_path = '/home/saiteja/flare_IITM_Research/datasets/Flare7Kpp/Flare7K/Scattering_Flare/Compound_Flare',
@@ -92,7 +93,9 @@ def flare_distortion(base_imgs,
 
     for no,base_img in enumerate(base_imgs):
         # resize it to 512,512
-        base_img=base_img.resize((512,512))
+        # base_img=base_img.resize((512,512))
+		# resize using cv2
+        base_img = cv2.resize(base_img, (512, 512))
         base_img=to_tensor(base_img)
         base_img=adjust_gamma(base_img)
         sigma_chi=0.01*np.random.chisquare(df=1)
@@ -118,19 +121,35 @@ def flare_distortion(base_imgs,
     return flare_vid, base_vid, merge_vid
 
 
-from glob import glob
-path = '/home/saiteja/flare_IITM_Research/datasets/Flickr24K'
-imgs = glob(path + '/*')
-img = imgs[0]
-base_img= Image.open(img)
-base_imgs = [base_img] * 5
-flare, base, merge = flare_distortion(base_imgs)
-# print(len(flare), flare[0].shape)
 
-import cv2
-for no, f in enumerate(merge):
-    f = f.permute(1,2,0)
-    f = f.numpy()
-    # save the image
-    f = f * 255
-    cv2.imwrite(f'flare_{no}.png', f)
+
+
+
+
+
+
+
+
+# from glob import glob
+# import cv2
+# path = '/home/saiteja/flare_IITM_Research/datasets/Flickr24K'
+# imgs = glob(path + '/*')
+# img = imgs[0]
+# base_img= cv2.imread(img)
+# base_img = cv2.cvtColor(base_img, cv2.COLOR_BGR2RGB)
+# base_imgs = [base_img] * 5
+# flare, base, merge = flare_distortion(base_imgs)
+# # print(len(flare), flare[0].shape)
+
+# import cv2
+# for no, f in enumerate(merge):
+#     f = f.permute(1,2,0)
+#     f = f.numpy()
+#     # save the image
+#     f = f * 255
+#     cv2.imwrite(f'flare_{no}.png', f)
+
+
+
+
+
