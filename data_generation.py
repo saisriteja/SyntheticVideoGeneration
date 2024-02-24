@@ -6,7 +6,7 @@ from decord import VideoReader
 import torch
 import torchvision.transforms as transforms
 from torch.utils.data.dataset import Dataset
-import albumentations as A
+# import albumentations as A
 from flare_distortion import flare_distortion
 import cv2
 
@@ -31,9 +31,9 @@ class WebVid10M(Dataset):
         sample_size = tuple(sample_size) if not isinstance(sample_size, int) else (sample_size, sample_size)
         
         
-        self.dist_transform = A.Compose(
-                            [A.RandomSunFlare(flare_roi=(0, 0, 1, 0.5), angle_lower=0.5, p=1)],
-                        )
+        # self.dist_transform = A.Compose(
+        #                     [A.RandomSunFlare(flare_roi=(0, 0, 1, 0.5), angle_lower=0.5, p=1)],
+        #                 )
         
         self.pixel_transforms = transforms.Compose([
             transforms.RandomHorizontalFlip(),
@@ -50,6 +50,7 @@ class WebVid10M(Dataset):
         video_dir    = os.path.join(self.video_folder, f"{videoid}.mp4")
         video_reader = VideoReader(video_dir)
         video_length = len(video_reader)
+        print("video length", video_length)
 
         
         if not self.is_image:
@@ -140,8 +141,8 @@ if __name__ == "__main__":
     # from animatediff.utils.util import save_videos_grid
 
     dataset = WebVid10M(
-        csv_path="results_2M_val_10.csv",
-        video_folder="videos/",
+        csv_path="truncated_results_2M_val.csv",
+        video_folder="vids/",
         sample_size=512,
         sample_stride=4, 
         sample_n_frames=16,

@@ -1,4 +1,3 @@
-from weakref import ref
 import numpy as np
 import torchvision.transforms as transforms
 
@@ -52,8 +51,8 @@ from glob import glob
 import cv2
 
 def flare_distortion(base_imgs,
-					 flare_path = '/home/saiteja/flare_IITM_Research/datasets/Flare7Kpp/Flare7K/Scattering_Flare/Compound_Flare',
-					 reflective_path = '/home/saiteja/flare_IITM_Research/datasets/Flare7Kpp/Flare7K/Reflective_Flare',
+					 flare_path = '/media/cilab/data/NTIRE/flare/Flare7Kpp/Flare7K/Scattering_Flare/Compound_Flare',
+					 reflective_path = '/media/cilab/data/NTIRE/flare/Flare7Kpp/Flare7K/Reflective_Flare',
 					 flare_no= 0,
 					 reflective_no = 0):
     transform_flare=transforms.Compose([transforms.RandomAffine(degrees=(0,360),
